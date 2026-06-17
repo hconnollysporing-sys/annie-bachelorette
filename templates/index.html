@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Annie's Bachelorette Weekend</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@500;600&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --butter: #F7E8A4;
+      --butter-mid: #F2DC85;
+      --butter-pale: #FDFAED;
+      --sage: #8A9E82;
+      --sage-dark: #5C7055;
+      --sage-light: #C8D9C4;
+      --sage-pale: #F0F4EE;
+      --white: #FFFFFF;
+      --text: #3A3D34;
+      --text-light: #7A7D6E;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--white);
+      font-family: 'Jost', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Petal confetti ── */
+    .petal {
+      position: fixed;
+      top: -20px;
+      animation: petalFall linear forwards;
+      pointer-events: none;
+      z-index: 999;
+    }
+    @keyframes petalFall {
+      to { transform: translateY(110vh) rotate(400deg); opacity: 0; }
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      background: var(--white);
+      text-align: center;
+      padding: 5rem 2rem 4.5rem;
+      overflow: hidden;
+      border-bottom: 1px solid #eee;
+    }
+
+    .hero-bg-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(460px, 90vw);
+      height: min(460px, 90vw);
+      background: radial-gradient(circle, #FDFAED 40%, #F0F4EE 100%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    /* Corner botanical SVGs */
+    .botanical {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .botanical-tl { top: 0; left: 0; width: clamp(160px, 24vw, 260px); }
+    .botanical-tr { top: 0; right: 0; width: clamp(160px, 24vw, 260px); transform: scaleX(-1); }
+    .botanical-bl { bottom: 0; left: 0; width: clamp(120px, 18vw, 200px); transform: scaleY(-1); }
+    .botanical-br { bottom: 0; right: 0; width: clamp(120px, 18vw, 200px); transform: scale(-1,-1); }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      font-size: 0.65rem;
+      color: var(--sage);
+      margin-bottom: 1.1rem;
+    }
+
+    .hero-name {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(5.5rem, 16vw, 9rem);
+      color: var(--sage-dark);
+      line-height: 0.9;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-rule {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 1rem auto;
+      max-width: 280px;
+    }
+
+    .hero-rule-line {
+      flex: 1;
+      height: 1px;
+      background: var(--sage-light);
+    }
+
+    .hero-rule-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--butter-mid);
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 2.8vw, 1.5rem);
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-pill {
+      display: inline-block;
+      background: var(--butter);
+      color: var(--sage-dark);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      padding: 0.55rem 2.5rem;
+      border-radius: 100px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Divider ── */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 3rem 2rem 0;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .section-divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--sage-light);
+    }
+    .section-divider-icon { color: var(--sage-light); font-size: 0.8rem; letter-spacing: 0.4em; }
+
+    /* ── Itinerary section ── */
+    .section {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 5rem;
+    }
+
+    .section-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-style: italic;
+      font-weight: 300;
+      text-align: center;
+      color: var(--sage-dark);
+      margin-bottom: 0.3rem;
+    }
+
+    .section-sub {
+      text-align: center;
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 3.5rem;
+    }
+
+    /* ── Day block ── */
+    .day-block { margin-bottom: 3rem; }
+
+    .day-label {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--sage);
+      position: relative;
+      margin-bottom: 1.75rem;
+    }
+    .day-label::before, .day-label::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 30%;
+      height: 1px;
+      background: var(--sage-light);
+    }
+    .day-label::before { left: 0; }
+    .day-label::after  { right: 0; }
+
+    /* ── Event card ── */
+    .event-card {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+      background: var(--white);
+      border: 1px solid #EAEDE8;
+      border-radius: 12px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 0.85rem;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .event-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--butter-mid);
+      border-radius: 12px 0 0 12px;
+    }
+    .event-card.sage-bar::before { background: var(--sage-light); }
+    .event-card:hover {
+      box-shadow: 0 6px 24px rgba(90,112,85,0.10);
+      transform: translateY(-2px);
+    }
+
+    .event-icon-wrap {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 50%;
+      background: var(--butter-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      margin-top: 2px;
+    }
+    .event-card.sage-bar .event-icon-wrap { background: var(--sage-pale); }
+
+    .event-body { flex: 1; min-width: 0; }
+
+    .event-time {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--sage);
+      margin-bottom: 0.2rem;
+      letter-spacing: 0.03em;
+    }
+
+    .event-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+      line-height: 1.25;
+    }
+
+    .event-detail {
+      font-size: 0.82rem;
+      font-weight: 300;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    .event-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-top: 0.6rem;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage-dark);
+      border-bottom: 1px solid var(--sage-light);
+      padding-bottom: 1px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--sage-pale);
+      border-top: 1px solid #DEEBD9;
+      text-align: center;
+      padding: 3.5rem 2rem 4rem;
+    }
+
+    .footer-floral {
+      font-size: 1.4rem;
+      letter-spacing: 0.4em;
+      margin-bottom: 1.25rem;
+      opacity: 0.7;
+    }
+
+    .footer-name {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.6rem;
+      color: var(--sage-dark);
+      line-height: 1;
+      margin-bottom: 0.6rem;
+    }
+
+    .footer-sub {
+      font-weight: 200;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--sage);
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 4rem 1.25rem 3.5rem; }
+      .event-card { padding: 1.1rem 1.2rem; gap: 1rem; }
+      .botanical-tl, .botanical-tr { width: 130px; }
+      .botanical-bl, .botanical-br { width: 100px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Hero ── -->
+<section class="hero">
+
+  <div class="hero-bg-circle"></div>
+
+  <!-- Top-left botanical -->
+  <svg class="botanical botanical-tl" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- large leaves -->
+    <ellipse cx="35" cy="160" rx="24" ry="10" fill="#C8D9C4" opacity="0.8" transform="rotate(-50 35 160)"/>
+    <ellipse cx="60" cy="180" rx="30" ry="11" fill="#8A9E82" opacity="0.5" transform="rotate(-30 60 180)"/>
+    <ellipse cx="18" cy="125" rx="20" ry="8" fill="#C8D9C4" opacity="0.65" transform="rotate(-65 18 125)"/>
+    <ellipse cx="80" cy="170" rx="26" ry="10" fill="#8A9E82" opacity="0.4" transform="rotate(-15 80 170)"/>
+    <!-- thin stems -->
+    <path d="M45 185 Q80 140 110 90" stroke="#8A9E82" stroke-width="1.2" fill="none" opacity="0.45"/>
+    <path d="M30 175 Q65 130 95 80" stroke="#C8D9C4" stroke-width="1" fill="none" opacity="0.4"/>
+    <path d="M65 185 Q90 150 115 110" stroke="#8A9E82" stroke-width="0.8" fill="none" opacity="0.35"/>
+    <!-- daisy bloom -->
+    <g transform="translate(108,82)">
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(40)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(80)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(120)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(160)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(200)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(240)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(280)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(320)"/>
+      <circle cx="0" cy="0" r="7" fill="#F2DC85"/>
+      <circle cx="0" cy="0" r="4.5" fill="#F7E8A4"/>
+    </g>
+    <!-- small bud -->
+    <g transform="translate(78,105)">
+      <ellipse cx="0" cy="-9" rx="3" ry="5.5" fill="#FFFADB" opacity="0.9"/>
+      <ellipse cx="0" cy="-9" rx="3" ry="5.5" fill="#FFFADB" opacity="0.9" transform="rotate(60)"/>
+      <ellipse cx="0" cy="-9" rx="3" ry="5.5" fill="#FFFADB" opacity="0.9" transform="rotate(120)"/>
+      <ellipse cx="0" cy="-9" rx="3" ry="5.5" fill="#FFFADB" opacity="0.9" transform="rotate(180)"/>
+      <ellipse cx="0" cy="-9" rx="3" ry="5.5" fill="#FFFADB" opacity="0.9" transform="rotate(240)"/>
+      <ellipse cx="0" cy="-9" rx="3" ry="5.5" fill="#FFFADB" opacity="0.9" transform="rotate(300)"/>
+      <circle cx="0" cy="0" r="4.5" fill="#F2DC85"/>
+    </g>
+    <!-- dots -->
+    <circle cx="125" cy="55" r="2.5" fill="#F2DC85" opacity="0.6"/>
+    <circle cx="140" cy="35" r="1.8" fill="#8A9E82" opacity="0.4"/>
+    <circle cx="115" cy="38" r="1.5" fill="#F7E8A4" opacity="0.6"/>
+  </svg>
+
+  <!-- Top-right (mirrored) -->
+  <svg class="botanical botanical-tr" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="35" cy="160" rx="24" ry="10" fill="#C8D9C4" opacity="0.8" transform="rotate(-50 35 160)"/>
+    <ellipse cx="60" cy="180" rx="30" ry="11" fill="#8A9E82" opacity="0.5" transform="rotate(-30 60 180)"/>
+    <ellipse cx="18" cy="125" rx="20" ry="8" fill="#C8D9C4" opacity="0.65" transform="rotate(-65 18 125)"/>
+    <ellipse cx="80" cy="170" rx="26" ry="10" fill="#8A9E82" opacity="0.4" transform="rotate(-15 80 170)"/>
+    <path d="M45 185 Q80 140 110 90" stroke="#8A9E82" stroke-width="1.2" fill="none" opacity="0.45"/>
+    <path d="M65 185 Q90 150 115 110" stroke="#8A9E82" stroke-width="0.8" fill="none" opacity="0.35"/>
+    <g transform="translate(108,82)">
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(40)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(80)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(120)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(160)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(200)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(240)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(280)"/>
+      <ellipse cx="0" cy="-14" rx="5" ry="9" fill="#FFFADB" opacity="0.95" transform="rotate(320)"/>
+      <circle cx="0" cy="0" r="7" fill="#F2DC85"/>
+      <circle cx="0" cy="0" r="4.5" fill="#F7E8A4"/>
+    </g>
+    <g transform="translate(78,105)">
+      <ellipse cx="0" cy="-9" rx="3" ry="5.5" fill="#FFFADB" opacity="0.9"/>
+      <ellipse cx="0" cy="-9" rx="3" ry="5.5" fill="#FFFADB" opacity="0.9" transform="rotate(60)"/>
+      <ellipse cx="0" cy="-9" rx="3" ry="5.5" fill="#FFFADB" opacity="0.9" transform="rotate(120)"/>
+      <ellipse cx="0" cy="-9" rx="3" ry="5.5" fill="#FFFADB" opacity="0.9" transform="rotate(180)"/>
+      <ellipse cx="0" cy="-9" rx="3" ry="5.5" fill="#FFFADB" opacity="0.9" transform="rotate(240)"/>
+      <ellipse cx="0" cy="-9" rx="3" ry="5.5" fill="#FFFADB" opacity="0.9" transform="rotate(300)"/>
+      <circle cx="0" cy="0" r="4.5" fill="#F2DC85"/>
+    </g>
+    <circle cx="125" cy="55" r="2.5" fill="#F2DC85" opacity="0.6"/>
+    <circle cx="115" cy="38" r="1.5" fill="#F7E8A4" opacity="0.6"/>
+  </svg>
+
+  <div class="hero-inner">
+    <p class="hero-eyebrow">You're invited to celebrate</p>
+    <h1 class="hero-name">Annie</h1>
+    <div class="hero-rule">
+      <div class="hero-rule-line"></div>
+      <div class="hero-rule-dot"></div>
+      <div class="hero-rule-line"></div>
+    </div>
+    <p class="hero-title">Bachelorette Weekend</p>
+    <span class="hero-pill">July 11 &ndash; 12, 2025</span>
+  </div>
+
+</section>
+
+<!-- ── Itinerary ── -->
+<div class="section-divider">
+  <div class="section-divider-line"></div>
+  <span class="section-divider-icon">&#10022; &#10022; &#10022;</span>
+  <div class="section-divider-line"></div>
+</div>
+
+<div class="section">
+
+  <h2 class="section-heading">The Weekend</h2>
+  <p class="section-sub">Philadelphia &middot; July 2025</p>
+
+  <!-- Friday -->
+  <div class="day-block">
+    <p class="day-label">Friday, July 11th</p>
+
+    <div class="event-card sage-bar">
+      <div class="event-icon-wrap">&#8962;</div>
+      <div class="event-body">
+        <p class="event-time">Before Noon</p>
+        <p class="event-name">Arrive at Annie's House</p>
+        <p class="event-detail">4629 Penchin Street, Philadelphia, PA 19128</p>
+        <p class="event-detail">Welcome! Lunch will be waiting for you!</p>
+      </div>
+    </div>
+
+    <a class="event-card sage-bar" href="https://www.friend-of-all.com/" target="_blank" rel="noopener">
+      <div class="event-icon-wrap">&#10086;</div>
+      <div class="event-body">
+        <p class="event-time">1:00 PM &ndash; 5:00 PM</p>
+        <p class="event-name">Stained Glass Workshop</p>
+        <p class="event-detail">At Friend of All, we'll each make a hanging glass ornament to take home &mdash; plus light snacks and prosecco</p>
+        <span class="event-cta">View Workshop &nbsp;&rarr;</span>
+      </div>
+    </a>
+
+    <a class="event-card sage-bar" href="https://www.mividamexico.com/" target="_blank" rel="noopener">
+      <div class="event-icon-wrap">&#127790;</div>
+      <div class="event-body">
+        <p class="event-time">7:30 PM</p>
+        <p class="event-name">Dinner at Mi Vida</p>
+        <p class="event-detail">Margs and dinner to kick off the night</p>
+        <span class="event-cta">View Restaurant &nbsp;&rarr;</span>
+      </div>
+    </a>
+
+    <div class="event-card sage-bar">
+      <div class="event-icon-wrap">&#129346;</div>
+      <div class="event-body">
+        <p class="event-time">9:00 PM onward</p>
+        <p class="event-name">Drinks in Center City</p>
+        <p class="event-detail">Bar hopping around 13th Street</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saturday -->
+  <div class="day-block">
+    <p class="day-label">Saturday, July 12th</p>
+
+    <a class="event-card sage-bar" href="https://www.lebuseastfalls.com/menu-2" target="_blank" rel="noopener">
+      <div class="event-icon-wrap">&#129360;</div>
+      <div class="event-body">
+        <p class="event-time">10:30 AM</p>
+        <p class="event-name">Brunch at Le Bus</p>
+        <p class="event-detail">East Falls &mdash; brunch, coffee, and a slow morning before heading out</p>
+        <span class="event-cta">View Menu &nbsp;&rarr;</span>
+      </div>
+    </a>
+  </div>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-floral">&#127803; &nbsp; &#127807; &nbsp; &#127803;</div>
+  <p class="footer-name">Here's to Annie</p>
+  <p class="footer-sub">July 2025 &middot; City of Brotherly Love</p>
+</footer>
+
+<script>
+  const colors = ['#F7E8A4', '#F2DC85', '#C8D9C4', '#8A9E82', '#ffffff', '#FDFAED'];
+  for (let i = 0; i < 45; i++) {
+    setTimeout(function() {
+      const el = document.createElement('div');
+      el.className = 'petal';
+      const size = Math.random() * 9 + 5;
+      el.style.cssText = [
+        'width:' + size + 'px',
+        'height:' + size + 'px',
+        'left:' + (Math.random() * 100) + 'vw',
+        'background:' + colors[Math.floor(Math.random() * colors.length)],
+        'animation-duration:' + (Math.random() * 3.5 + 3.5) + 's',
+        'animation-delay:' + (Math.random() * 1.5) + 's',
+        'border-radius:' + (Math.random() > 0.5 ? '50% 0 50% 0' : '50%'),
+        'opacity:0.7',
+      ].join(';');
+      document.body.appendChild(el);
+      el.addEventListener('animationend', function() { el.remove(); });
+    }, i * 80);
+  }
+</script>
+
+</body>
+</html>
