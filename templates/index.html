@@ -189,25 +189,22 @@
     .day-block { margin-bottom: 3rem; }
 
     .day-label {
-      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
       font-family: 'Cormorant Garamond', serif;
       font-size: 0.68rem;
       letter-spacing: 0.38em;
       text-transform: uppercase;
       color: var(--sage);
-      position: relative;
       margin-bottom: 1.75rem;
     }
     .day-label::before, .day-label::after {
       content: '';
-      position: absolute;
-      top: 50%;
-      width: 30%;
+      flex: 1;
       height: 1px;
       background: var(--sage-light);
     }
-    .day-label::before { left: 0; }
-    .day-label::after  { right: 0; }
 
     /* ── Event card ── */
     .event-card {
